@@ -6,14 +6,13 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
+	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-type Config struct {
-	webPort string
-}
-
-func NewConfig(webPort string) Config {
-	return Config{webPort: webPort}
+func NewConfig(webPort string, conn *amqp.Connection) Config {
+	return Config{
+		webPort: webPort,
+		rabbit:  conn}
 }
 
 func (app *Config) Routes() http.Handler {
